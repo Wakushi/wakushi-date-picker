@@ -1,12 +1,14 @@
 import "./DatePicker.css"
 import { MouseEvent, useEffect, useState } from "react"
 
+// Type definition for the grid day structure
 type GridDay = {
   dayNumber: number
   month: number
   dayName?: string
 }
 
+// DatePicker component definition
 export default function DatePicker({
   id,
   value,
@@ -16,24 +18,31 @@ export default function DatePicker({
   value: string
   onChange: (date: string) => void
 }) {
+  // Maximum number of days to display in the calendar grid
   const MAX_DAYS_IN_GRID = 42
 
+  // State to control the visibility of the calendar
   const [showCalendar, setShowCalendar] = useState<boolean>(false)
 
+  // State to hold the days of the current month being displayed
   const [daysOfMonth, setDaysOfMonth] = useState<GridDay[]>([])
 
+  // State to hold the currently selected month
   const [selectedMonth, setSelectedMonth] = useState<number>(
     getNow().getMonth()
   )
 
+  // State to hold the currently selected year
   const [selectedYear, setSelectedYear] = useState<number>(
     getNow().getFullYear()
   )
 
+  // State to hold the currently selected date
   const [selectedDate, setSelectedDate] = useState<Date>(
     value ? new Date(value) : new Date()
   )
 
+  // Effect to build the calendar grid and handle clicks outside the calendar modal
   useEffect(() => {
     buildDaysGrid()
 
@@ -54,6 +63,7 @@ export default function DatePicker({
     }
   }, [selectedMonth, selectedYear])
 
+  // Function to get the current time frame based on the selected month and year
   function getCurrentTimeFrame(): Date {
     const time = new Date()
     time.setMonth(selectedMonth)
@@ -62,12 +72,14 @@ export default function DatePicker({
     return time
   }
 
+  // Function to get the current date with time set to 00:00:00
   function getNow(): Date {
     const now = new Date()
     now.setHours(0, 0, 0, 0)
     return now
   }
 
+  // Function to get the number of days in a given month
   function getDaysAmountInMonth(date: Date) {
     const currentYear = date.getFullYear()
     const currentMonth = date.getMonth()
@@ -76,6 +88,7 @@ export default function DatePicker({
     return nextMonth.getDate()
   }
 
+  // Function to get the range of years for the year selector
   function getYearsSelectorArray(): number[] {
     const YEARS_EDGE = 500
     const currentYear = getNow().getFullYear()
@@ -85,6 +98,7 @@ export default function DatePicker({
     return Array.from({ length: rangeSize }, (_, i) => yearRangeStart + i)
   }
 
+  // Function to format a date object into a YYYY-MM-DD string
   function formatDate(date: Date) {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, "0")
@@ -92,6 +106,7 @@ export default function DatePicker({
     return `${year}-${month}-${day}`
   }
 
+  // Function to build the days grid for the current month
   function buildDaysGrid() {
     const previousMonth = getCurrentTimeFrame()
     previousMonth.setMonth(previousMonth.getMonth() - 1)
@@ -138,6 +153,7 @@ export default function DatePicker({
     setDaysOfMonth(daysGrid)
   }
 
+  // Function to handle date selection from the calendar grid
   function onSelectDate(gridDay: GridDay) {
     const { dayNumber, month } = gridDay
     const date = new Date(`${selectedYear}-${month + 1}-${dayNumber}`)
@@ -147,6 +163,7 @@ export default function DatePicker({
     setShowCalendar(false)
   }
 
+  // Function to handle the click event on the date input field
   function onDateInputClick(e: MouseEvent) {
     e.preventDefault()
     setShowCalendar((prevShowCalendar) => !prevShowCalendar)
@@ -157,7 +174,6 @@ export default function DatePicker({
       {showCalendar && (
         <div id="datePickerModal" className="calendar-modal">
           <div className="calendar-head">
-            {/* MONTH SELECTOR */}
             <select
               name="month"
               id="month"
@@ -183,7 +199,6 @@ export default function DatePicker({
                 </option>
               ))}
             </select>
-            {/* YEARS SELECTOR */}
             <select
               name="year"
               id="year"
