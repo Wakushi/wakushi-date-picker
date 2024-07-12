@@ -1,0 +1,43 @@
+{
+  "name": "wakushi-date-picker",
+  "version": "1.0.1",
+  "description": "A simple date picker component for React.",
+  "main": "dist/wakushi-date-picker.umd.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "prebuild": "tsc",
+    "build": "tsc && vite build && npm run postbuild",
+    "postbuild": "npm run copy-types && npm run copy-css && npm run clean-types",
+    "copy-types": "cp -r types dist/",
+    "copy-css": "cp src/DatePicker.css dist/",
+    "clean-types": "rm -rf types",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "date-picker",
+    "react",
+    "component"
+  ],
+  "author": "Wakushi",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "fs-extra": "^10.0.0"
+  }
+}
