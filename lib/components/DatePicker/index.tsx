@@ -244,22 +244,26 @@ export function DatePicker({
     return days
   }
 
-  // TODO
   function getLocalizedMonthNames(): string[] {
-    return [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ]
+    const months: string[] = []
+
+    const yearStart = new Date(2024, 0, 1)
+
+    for (let i = 0; i < 12; i++) {
+      const month = new Date(yearStart)
+      month.setMonth(i)
+      months.push(
+        capitalize(
+          new Intl.DateTimeFormat(locale, { month: "long" }).format(month)
+        )
+      )
+    }
+
+    return months
+  }
+
+  function capitalize(str: string) {
+    return `${str.substring(0, 1).toUpperCase()}${str.substring(1, str.length)}`
   }
 
   return (
